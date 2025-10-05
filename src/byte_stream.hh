@@ -1,8 +1,10 @@
+
 #pragma once
 
 #include <cstdint>
 #include <string>
 #include <string_view>
+#include <vector>
 
 class Reader;
 class Writer;
@@ -20,17 +22,24 @@ public:
 
   void set_error() { error_ = true; };       // Signal that the stream suffered an error.
   bool has_error() const { return error_; }; // Has the stream had an error?
+  void check();
 
 protected:
   // Please add any additional state to the ByteStream here, and not to the Writer and Reader interfaces.
+  std::vector<char> buffer;
+  uint64_t writer_pos;
+  uint64_t reader_pos;
   uint64_t capacity_;
-  bool error_ {};
+  uint64_t wn;
+  uint64_t rn;
+  bool error_ ;
+  bool writer_finished;
 };
 
 class Writer : public ByteStream
 {
 public:
-  void push( std::string data ); // Push data to stream, but only as much as available capacity allows.
+  void push(const std::string& data ); // Push data to stream, but only as much as available capacity allows.
   void close();                  // Signal that the stream has reached its ending. Nothing more will be written.
 
   bool is_closed() const;              // Has the stream been closed?
