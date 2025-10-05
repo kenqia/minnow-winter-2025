@@ -1,12 +1,18 @@
 #pragma once
 
 #include "byte_stream.hh"
+#include <algorithm>
+#include <limits>
+#include <iostream>
+#include <map>
+#include <deque>
 
 class Reassembler
 {
 public:
   // Construct Reassembler to write into given ByteStream.
-  explicit Reassembler( ByteStream&& output ) : output_( std::move( output ) ) {}
+    explicit Reassembler( ByteStream&& output ) : output_( std::move( output ) ), next(0), eof_idx(std::numeric_limits<uint64_t>::max()),
+                                                mp(){}
 
   /*
    * Insert a new substring to be reassembled into a ByteStream.
@@ -42,5 +48,17 @@ public:
   const Writer& writer() const { return output_.writer(); }
 
 private:
+  struct piece{
+    uint64_t index;
+    uint64_t size;
+  };
+
   ByteStream output_;
+  uint64_t next;
+  uint64_t eof_idx = std::numeric_limits<uint64_t>::max();
+  std::map<uint64_t, std::string> mp;
+
+  bool is_eof(){
+    return eof_idx != std::numeric_limits<uint64_t>::max();
+  }
 };
