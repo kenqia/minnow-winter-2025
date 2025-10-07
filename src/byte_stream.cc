@@ -10,7 +10,7 @@ ByteStream::ByteStream( uint64_t capacity ) : buffer(2 * capacity),
                                               wn(0),
                                               rn(0), 
                                               error_(false),
-                                              writer_finished(false){assert(capacity > 0);}
+                                              writer_finished(false){}
 
 void Writer::push(const string& data)
 {
