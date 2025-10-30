@@ -6,6 +6,8 @@
 
 #include <memory>
 #include <queue>
+#include <unordered_map>
+#include <vector>
 
 // A "network interface" that connects IP (the internet layer, or network layer)
 // with Ethernet (the network access layer, or link layer).
@@ -82,4 +84,19 @@ private:
 
   // Datagrams that have been received
   std::queue<InternetDatagram> datagrams_received_ {};
+
+  // ARP MAPPING
+  std::unordered_map<uint32_t, EthernetAddress> ARP_cache {};
+
+  // waiting for ARP queue
+  std::unordered_map<uint32_t, std::queue<InternetDatagram>> waiting_queue {};
+
+  // time
+  uint64_t current_time_ms_ {};
+
+  // that's the ARP message that have sent and record its sending time
+  std::unordered_map<uint32_t, uint64_t> ARP_sent_cnt {};
+
+  // cnt the time of cache
+  std::unordered_map<uint32_t, uint64_t> ARP_cache_cnt {};
 };
