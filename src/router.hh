@@ -34,4 +34,6 @@ public:
 private:
   // The router's collection of network interfaces
   std::vector<std::shared_ptr<NetworkInterface>> interfaces_ {};
+
+  std::unordered_map<std::string, std::pair<std::optional<Address>, size_t>> routing_table {}; // 选择用有效前缀作为索引!超级不同寻常，嵌入信息！我们不一样！
 };
