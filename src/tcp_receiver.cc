@@ -6,7 +6,7 @@ using namespace std;
 void TCPReceiver::receive( TCPSenderMessage message )
 {
   if(message.RST){
-    cout << "HELLO? " << endl;
+    // cout << "HELLO? " << endl;
     reassembler_.reader().set_error();
     return;
   }

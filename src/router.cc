@@ -42,7 +42,7 @@ void Router::add_route( const uint32_t route_prefix,
         }
 
        }
-       cout << "hi! i am " << prefix << endl;
+      //  cout << "hi! i am " << prefix << endl;
 
        routing_table.insert({prefix + std::to_string(prefix_length), {next_hop, interface_num}});
 }

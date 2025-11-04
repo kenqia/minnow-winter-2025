@@ -28,12 +28,12 @@ void TCPSender::push( const TransmitFunction& transmit )
 {
   
   if(!window_size.has_value()){
-    cout << "break 1" << endl;
+    // cout << "break 1" << endl;
     return;
   }
 
   if(window_size.value() < sequence_numbers_in_flight()){
-    cout << "break 2" << endl;
+    // cout << "break 2" << endl;
     return;
   }
   
@@ -55,7 +55,7 @@ void TCPSender::push( const TransmitFunction& transmit )
 
   if(window_size.value() == 0){
     if(sequence_numbers_in_flight() > 0){
-      cout << "no need do that just wait" << endl;
+      // cout << "no need do that just wait" << endl;
       return;
     }
     available_window = 1;
@@ -150,7 +150,7 @@ void TCPSender::receive( const TCPReceiverMessage& msg )
 
 
   if(!msg.ackno.has_value()){
-    cout << msg.window_size << "wait, do you want me to sent it again???" << endl;
+    // cout << msg.window_size << "wait, do you want me to sent it again???" << endl;
     return;
   }
 
@@ -160,7 +160,7 @@ void TCPSender::receive( const TCPReceiverMessage& msg )
   if(sections.empty()) return;
   auto temp = --sections.end();
   if(abs_seqno > temp->first + temp->second.sequence_length()){
-    cout << "broken" << endl;
+    // cout << "broken" << endl;
     return;
   }
 
@@ -175,7 +175,7 @@ void TCPSender::receive( const TCPReceiverMessage& msg )
           ++itr;
       }
   }
-  cout << sections.empty() << endl;
+  // cout << sections.empty() << endl;
   if(flag){
     RTO = initial_RTO_ms_;
     ticks = 0;
@@ -196,7 +196,7 @@ void TCPSender::tick( uint64_t ms_since_last_tick, const TransmitFunction& trans
   if(ticks >= RTO){
     // cout << "retransmit hey! ticks : "<< ticks << " retransimits_cnt :" << retransmit_cnt << endl;
     if(sections.empty()){
-      cout << "idk what's going on" << endl;
+      // cout << "idk what's going on" << endl;
       return;
     }
     transmit(sections.begin()->second);
